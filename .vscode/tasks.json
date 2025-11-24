@@ -1,0 +1,58 @@
+{
+  "version": "2.0.0",
+  "options": {
+    "shell": {
+      "executable": "/bin/zsh",
+      "args": ["-lc"]
+    }
+  },
+  "tasks": [
+    {
+      "label": "CMake Configure (Release)",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S", ".",
+        "-B", "build",
+        "-G", "Unix Makefiles",
+        "-DCMAKE_BUILD_TYPE=Release"
+      ],
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "CMake Build (Release)",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build", "build",
+        "--config", "Release",
+        "--", "-j8"
+      ],
+      "problemMatcher": ["$gcc"],
+      "dependsOn": "CMake Configure (Release)"
+    },
+    {
+      "label": "Install VST3 (User)",
+      "type": "shell",
+      "command": "DEST=\"$HOME/Library/Audio/Plug-Ins/VST3\"; SRC=\"build/ChladniResonator_artefacts/Release/VST3/Chladni Resonator.vst3\"; mkdir -p \"$DEST\"; if [ ! -d \"$SRC\" ]; then echo \"❌ Artefakt nicht gefunden: $SRC\"; exit 1; fi; rm -rf \"$DEST/Chladni Resonator.vst3\"; cp -R \"$SRC\" \"$DEST/\"; xattr -dr com.apple.quarantine \"$DEST/Chladni Resonator.vst3\" || true; codesign --force --deep --sign - \"$DEST/Chladni Resonator.vst3\"; echo \"✅ Installiert: $DEST/Chladni Resonator.vst3\"",
+      "problemMatcher": [],
+      "dependsOn": "CMake Build (Release)"
+    },
+    {
+      "label": "Build+Install VST3 (Release)",
+      "dependsOn": [
+        "CMake Configure (Release)",
+        "CMake Build (Release)",
+        "Install VST3 (User)"
+      ],
+      "dependsOrder": "sequence",
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "Clean builds",
+      "type": "shell",
+      "command": "rm -rf build build-universal",
+      "problemMatcher": []
+    }
+  ]
+}
