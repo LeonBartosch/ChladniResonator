@@ -11,7 +11,6 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     // --- Mode slider ---
     modeSlider.setSliderStyle (juce::Slider::LinearHorizontal);
     modeSlider.setTextBoxStyle (juce::Slider::TextBoxRight, false, 60, 20);
-    // modeSlider.setRange (1.0, 80.0, 1.0);      // modeIndex = 1..80
     addAndMakeVisible (modeSlider);
 
     modeLabel.setText ("Mode", juce::dontSendNotification);
@@ -21,7 +20,6 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     // --- Theta slider (mix of degenerate pairs) ---
     thetaSlider.setSliderStyle (juce::Slider::LinearHorizontal);
     thetaSlider.setTextBoxStyle (juce::Slider::TextBoxRight, false, 60, 20);
-    // thetaSlider.setRange (-1.0, 1.0, 0.01);    // mix ∈ [-1,1]
     addAndMakeVisible (thetaSlider);
 
     thetaLabel.setText ("theta", juce::dontSendNotification);
@@ -31,7 +29,6 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     // --- A slider () ---
     aSlider.setSliderStyle (juce::Slider::LinearHorizontal);
     aSlider.setTextBoxStyle (juce::Slider::TextBoxRight, false, 60, 20);
-    // aSlider.setRange (0.1, 2.0, 0.01);
     addAndMakeVisible (aSlider);
 
     aLabel.setText ("A", juce::dontSendNotification);
@@ -41,7 +38,6 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     // --- B slider () ---
     bSlider.setSliderStyle (juce::Slider::LinearHorizontal);
     bSlider.setTextBoxStyle (juce::Slider::TextBoxRight, false, 60, 20);
-    // bSlider.setRange (0.1, 2.0, 0.01);
     addAndMakeVisible (bSlider);
 
     bLabel.setText ("B", juce::dontSendNotification);
@@ -51,7 +47,6 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     // --- alpha slider () ---
     alphaSlider.setSliderStyle (juce::Slider::LinearHorizontal);
     alphaSlider.setTextBoxStyle (juce::Slider::TextBoxRight, false, 60, 20);
-    // alphaSlider.setRange (0.00, 0.05, 0.001);
     addAndMakeVisible (alphaSlider);
 
     alphaLabel.setText ("alpha", juce::dontSendNotification);
@@ -61,7 +56,6 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     // --- beta slider () ---
     betaSlider.setSliderStyle (juce::Slider::LinearHorizontal);
     betaSlider.setTextBoxStyle (juce::Slider::TextBoxRight, false, 60, 20);
-    // betaSlider.setRange (0.00, 0.10, 0.001);
     addAndMakeVisible (betaSlider);
 
     betaLabel.setText ("beta", juce::dontSendNotification);
@@ -71,7 +65,6 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     // --- Base frequency slider (f_11) ---
     baseFreqSlider.setSliderStyle (juce::Slider::LinearHorizontal);
     baseFreqSlider.setTextBoxStyle (juce::Slider::TextBoxRight, false, 60, 20);
-    // baseFreqSlider.setRange (50.0, 1000.0, 1.0);   // Hz
     baseFreqSlider.setSkewFactorFromMidPoint (220.0);
     addAndMakeVisible (baseFreqSlider);
 
@@ -82,7 +75,6 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     // --- Bridge X slider (0..1) ---
     bridgeXSlider.setSliderStyle (juce::Slider::LinearHorizontal);
     bridgeXSlider.setTextBoxStyle (juce::Slider::TextBoxRight, false, 60, 20);
-    // bridgeXSlider.setRange (0.0, 1.0, 0.01);
     addAndMakeVisible (bridgeXSlider);
 
     bridgeXLabel.setText ("Bridge X", juce::dontSendNotification);
@@ -92,7 +84,6 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     // --- Bridge Y slider (0..1) ---
     bridgeYSlider.setSliderStyle (juce::Slider::LinearHorizontal);
     bridgeYSlider.setTextBoxStyle (juce::Slider::TextBoxRight, false, 60, 20);
-    // bridgeYSlider.setRange (0.0, 1.0, 0.01);
     addAndMakeVisible (bridgeYSlider);
 
     bridgeYLabel.setText ("Bridge Y", juce::dontSendNotification);
@@ -102,7 +93,6 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     // --- Q slider (global) ---
     qSlider.setSliderStyle (juce::Slider::LinearHorizontal);
     qSlider.setTextBoxStyle (juce::Slider::TextBoxRight, false, 60, 20);
-    // qSlider.setRange (2.0, 200.0, 1.0);     // typischer Q-Bereich
     qSlider.setSkewFactorFromMidPoint (20.0);
     addAndMakeVisible (qSlider);
 
@@ -110,8 +100,17 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     qLabel.attachToComponent (&qSlider, true);
     addAndMakeVisible (qLabel);
 
+    // --- Q Falloff slider ---
+    qFalloffSlider.setSliderStyle (juce::Slider::LinearHorizontal);
+    qFalloffSlider.setTextBoxStyle (juce::Slider::TextBoxRight, false, 60, 20);
+    qFalloffSlider.setSkewFactorFromMidPoint (20.0);
+    addAndMakeVisible (qFalloffSlider);
+
+    qFalloffLabel.setText ("Q Falloff", juce::dontSendNotification);
+    qFalloffLabel.attachToComponent (&qFalloffSlider, true);
+    addAndMakeVisible (qFalloffLabel);
+
     // --- Mix slider (0..100 %) ---
-    // mixSlider.setRange (0.0, 1.0, 0.001);
     mixSlider.setTextBoxStyle (juce::Slider::TextBoxRight, false, 60, 20);
 
     // Anzeige logisch (0–100%):
@@ -134,7 +133,6 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     // --- Max Modes slider ---
     maxModesSlider.setSliderStyle (juce::Slider::LinearHorizontal);
     maxModesSlider.setTextBoxStyle (juce::Slider::TextBoxRight, false, 60, 20);
-    // maxModesSlider.setRange (1.0, 80.0, 1.0);  // z.B. 1..80
     addAndMakeVisible (maxModesSlider);
 
     maxModesLabel.setText ("Max Modes", juce::dontSendNotification);
@@ -144,7 +142,6 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     // --- Input Gain (dB) ---
     inGainSlider.setSliderStyle (juce::Slider::LinearHorizontal);
     inGainSlider.setTextBoxStyle (juce::Slider::TextBoxRight, false, 60, 20);
-    // inGainSlider.setRange (-24.0, 24.0, 0.1);
     addAndMakeVisible (inGainSlider);
 
     inGainLabel.setText ("In Gain [dB]", juce::dontSendNotification);
@@ -154,7 +151,6 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     // --- Output Gain (dB) ---
     outGainSlider.setSliderStyle (juce::Slider::LinearHorizontal);
     outGainSlider.setTextBoxStyle (juce::Slider::TextBoxRight, false, 60, 20);
-    // outGainSlider.setRange (-24.0, 24.0, 0.1);
     addAndMakeVisible (outGainSlider);
 
     outGainLabel.setText ("Out Gain [dB]", juce::dontSendNotification);
@@ -171,6 +167,7 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     brxAttachment       = std::make_unique<juce::SliderParameterAttachment>(*audioProcessor.apvts.getParameter("BRX"),       bridgeXSlider);
     bryAttachment       = std::make_unique<juce::SliderParameterAttachment>(*audioProcessor.apvts.getParameter("BRY"),       bridgeYSlider);
     qAttachment         = std::make_unique<juce::SliderParameterAttachment>(*audioProcessor.apvts.getParameter("Q"),         qSlider);
+    qFalloffAttachment  = std::make_unique<juce::SliderParameterAttachment>(*audioProcessor.apvts.getParameter("QFALLOFF"),  qFalloffSlider);
     mixAttachment       = std::make_unique<juce::SliderParameterAttachment>(*audioProcessor.apvts.getParameter("MIX"),       mixSlider);
     maxModesAttachment  = std::make_unique<juce::SliderParameterAttachment>(*audioProcessor.apvts.getParameter("MAXMODES"),  maxModesSlider);
     inGainAttachment    = std::make_unique<juce::SliderParameterAttachment>(*audioProcessor.apvts.getParameter("INGAIN"),    inGainSlider);
@@ -238,6 +235,7 @@ ChladniProcessorEditor::ChladniProcessorEditor (ChladniProcessor& p)
     bridgeYSlider.onValueChange   = controlsChanged;
     absoluteButton.onClick        = controlsChanged;
     qSlider.onValueChange         = controlsChanged;
+    qFalloffSlider.onValueChange  = controlsChanged;
     mixSlider.onValueChange       = controlsChanged;
     maxModesSlider.onValueChange  = controlsChanged;
     inGainSlider.onValueChange    = controlsChanged;
@@ -274,7 +272,7 @@ void ChladniProcessorEditor::paint (juce::Graphics& g)
                       1);
 
     // Left panel + right panel
-    auto leftPanel  = area.removeFromLeft (320);
+    auto leftPanel  = area.removeFromLeft (400);
     auto rightPanel = area.reduced (10);
 
     // Left panel background
@@ -313,7 +311,7 @@ void ChladniProcessorEditor::paint (juce::Graphics& g)
         }
     }
 
-    // Bridge marker only in Single view (optional)
+    // Bridge marker
     const float xBridge = (float) bridgeXSlider.getValue();
     const float yBridge = (float) bridgeYSlider.getValue();
 
@@ -334,11 +332,11 @@ void ChladniProcessorEditor::resized()
 
     area.removeFromTop (40); // header
 
-    auto leftPanel  = area.removeFromLeft (320);
+    auto leftPanel  = area.removeFromLeft (400);
     auto rightPanel = area.reduced (10);
     juce::ignoreUnused (rightPanel); // used only in paint()
 
-    leftPanel = leftPanel.reduced (15);
+    leftPanel = leftPanel.withTrimmedLeft (30);
 
     // Mode slider
     auto row = leftPanel.removeFromTop (40);
@@ -383,6 +381,10 @@ void ChladniProcessorEditor::resized()
     // Q slider
     row = leftPanel.removeFromTop (40);
     qSlider.setBounds (row.removeFromRight (row.getWidth() - 60));
+
+    // Q Falloff slider
+    row = leftPanel.removeFromTop (40);
+    qFalloffSlider.setBounds (row.removeFromRight (row.getWidth() - 60));
 
     // Mix slider
     row = leftPanel.removeFromTop (40);
@@ -580,17 +582,27 @@ void ChladniProcessorEditor::mouseDrag (const juce::MouseEvent& e)
 
 juce::Rectangle<int> ChladniProcessorEditor::getImageArea() const
 {
+    // Ausgang wie in paint()
     auto area = getLocalBounds().reduced (10);
-
-    // Header (40 px)
     area.removeFromTop (40);
+    area.removeFromLeft (400);
+    auto container = area.reduced (10);
 
-    // Controls + „tab“-Buttons links
-    area.removeFromLeft (320);
+    const int imgW = 256;
+    const int imgH = 256;
 
-    // Right panel
-    auto rightPanel = area.reduced (10);
+    // Containergröße
+    int cw = container.getWidth();
+    int ch = container.getHeight();
 
-    // Image area inside right panel
-    return rightPanel.reduced (20);
+    // Da Bild quadratisch ist:
+    int side = std::min(cw, ch);
+
+    juce::Rectangle<int> target;
+    target.setSize(side, side);
+
+    // zentrieren
+    target.setCentre(container.getCentre());
+
+    return target;
 }

@@ -60,6 +60,9 @@ private:
     juce::Slider qSlider;
     juce::Label  qLabel;
 
+    juce::Slider qFalloffSlider;
+    juce::Label  qFalloffLabel;
+
     juce::Slider mixSlider;
     juce::Label  mixLabel;
 
@@ -85,6 +88,7 @@ private:
     std::unique_ptr<juce::SliderParameterAttachment> brxAttachment;
     std::unique_ptr<juce::SliderParameterAttachment> bryAttachment;
     std::unique_ptr<juce::SliderParameterAttachment> qAttachment;
+    std::unique_ptr<juce::SliderParameterAttachment> qFalloffAttachment;
     std::unique_ptr<juce::SliderParameterAttachment> mixAttachment;
     std::unique_ptr<juce::SliderParameterAttachment> maxModesAttachment;
     std::unique_ptr<juce::SliderParameterAttachment> inGainAttachment;

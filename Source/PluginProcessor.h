@@ -123,6 +123,7 @@ public:
     float getBridgeX() const   { return pBridgeX ? pBridgeX->load() : 0.0f; }
     float getBridgeY() const   { return pBridgeY ? pBridgeY->load() : 0.0f; }
     float getQGlobal() const   { return pQ ? pQ->load() : 0.0f; }
+    float getQFalloff() const  { return pQFalloff ? pQFalloff->load() : 0.0f; }
     float getMixWet() const    { return pMix ? pMix->load() : 0.0f; }
     float getInGainDb() const  { return pInGain ? pInGain->load() : 0.0f; }
     float getOutGainDb() const { return pOutGain ? pOutGain->load() : 0.0f; }
@@ -133,19 +134,20 @@ private:
     ModalBody modalBodies[2];   // 0 = left, 1 = right
     SimpleLimiter limiters[2];
 
-    std::atomic<float>* pF11     = nullptr;
-    std::atomic<float>* pTheta   = nullptr;
-    std::atomic<float>* pA   = nullptr;
-    std::atomic<float>* pB   = nullptr;
-    std::atomic<float>* pAlpha   = nullptr;
-    std::atomic<float>* pBeta   = nullptr;
-    std::atomic<float>* pBridgeX = nullptr;
-    std::atomic<float>* pBridgeY = nullptr;
-    std::atomic<float>* pQ       = nullptr;
-    std::atomic<float>* pMix     = nullptr;
-    std::atomic<float>* pModes   = nullptr;
-    std::atomic<float>* pInGain  = nullptr;
-    std::atomic<float>* pOutGain = nullptr;
+    std::atomic<float>* pF11        = nullptr;
+    std::atomic<float>* pTheta      = nullptr;
+    std::atomic<float>* pA          = nullptr;
+    std::atomic<float>* pB          = nullptr;
+    std::atomic<float>* pAlpha      = nullptr;
+    std::atomic<float>* pBeta       = nullptr;
+    std::atomic<float>* pBridgeX    = nullptr;
+    std::atomic<float>* pBridgeY    = nullptr;
+    std::atomic<float>* pQ          = nullptr;
+    std::atomic<float>* pQFalloff   = nullptr;
+    std::atomic<float>* pMix        = nullptr;
+    std::atomic<float>* pModes      = nullptr;
+    std::atomic<float>* pInGain     = nullptr;
+    std::atomic<float>* pOutGain    = nullptr;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ChladniProcessor)
 };

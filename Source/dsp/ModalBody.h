@@ -119,6 +119,15 @@ public:
         updateCoeffs();
     }
 
+    // Globalen Q-Wert für alle Moden setzen
+    void setLocalQ (float newQ, float newQFalloff)
+    {
+        for (auto& m : modes)
+            m.q = newQ / (1.0f + newQFalloff * m.relFreq);
+
+        updateCoeffs();
+    }
+
     // Wie viele Moden aktiv benutzt werden (1..modes.size()).
     // n <= 0 oder n > size => alle Moden.
     void setActiveModeCount (int n)

@@ -15,19 +15,20 @@ ChladniProcessor::ChladniProcessor()
     ),
       apvts (*this, nullptr, "PARAMS", createParameterLayout())
 {
-    pF11     = apvts.getRawParameterValue("F11");
-    pTheta   = apvts.getRawParameterValue("THETA");
-    pA       = apvts.getRawParameterValue("A");
-    pB       = apvts.getRawParameterValue("B");
-    pAlpha   = apvts.getRawParameterValue("ALPHA");
-    pBeta    = apvts.getRawParameterValue("BETA");
-    pBridgeX = apvts.getRawParameterValue("BRX");
-    pBridgeY = apvts.getRawParameterValue("BRY");
-    pQ       = apvts.getRawParameterValue("Q");
-    pMix     = apvts.getRawParameterValue("MIX");
-    pModes   = apvts.getRawParameterValue("MAXMODES");
-    pInGain  = apvts.getRawParameterValue("INGAIN");
-    pOutGain = apvts.getRawParameterValue("OUTGAIN");
+    pF11        = apvts.getRawParameterValue("F11");
+    pTheta      = apvts.getRawParameterValue("THETA");
+    pA          = apvts.getRawParameterValue("A");
+    pB          = apvts.getRawParameterValue("B");
+    pAlpha      = apvts.getRawParameterValue("ALPHA");
+    pBeta       = apvts.getRawParameterValue("BETA");
+    pBridgeX    = apvts.getRawParameterValue("BRX");
+    pBridgeY    = apvts.getRawParameterValue("BRY");
+    pQ          = apvts.getRawParameterValue("Q");
+    pQFalloff   = apvts.getRawParameterValue("QFALLOFF");
+    pMix        = apvts.getRawParameterValue("MIX");
+    pModes      = apvts.getRawParameterValue("MAXMODES");
+    pInGain     = apvts.getRawParameterValue("INGAIN");
+    pOutGain    = apvts.getRawParameterValue("OUTGAIN");
 }
 
 ChladniProcessor::~ChladniProcessor() = default;
@@ -192,7 +193,8 @@ void ChladniProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     const float beta = *pBeta;
     const float bx = *pBridgeX;
     const float by = *pBridgeY;
-    const float q = *pQ;
+    const float baseQ = *pQ;
+    const float qFalloff = *pQFalloff;
     const float wet = *pMix;
     const int Nuse = *pModes;
     const float inDb = *pInGain;
@@ -213,7 +215,7 @@ void ChladniProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     for (int ch = 0; ch < 2; ++ch)
     {
         modalBodies[ch].setBaseFrequency (f11);
-        modalBodies[ch].setGlobalQ (q);
+        modalBodies[ch].setLocalQ (baseQ, qFalloff);
         modalBodies[ch].setActiveModeCount (Nuse);
         modalBodies[ch].updateCouplings (bx, by, theta, a, b, alpha, beta);
     }
@@ -296,7 +298,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout ChladniProcessor::createPara
 
     p.push_back (std::make_unique<juce::AudioParameterFloat>(
         "MODE", "Mode",
-        juce::NormalisableRange<float> (1.0f, 144.0f, 1.0f), 1.0f));
+        juce::NormalisableRange<float> (1.0f, 210.0f, 1.0f), 1.0f));
 
     p.push_back (std::make_unique<juce::AudioParameterFloat>(
         "THETA", "Theta",
@@ -331,7 +333,11 @@ juce::AudioProcessorValueTreeState::ParameterLayout ChladniProcessor::createPara
 
     p.push_back (std::make_unique<juce::AudioParameterFloat>(
         "Q", "Q",
-        juce::NormalisableRange<float> (2.0f, 200.0f, 1.0f), 40.0f));
+        juce::NormalisableRange<float> (2.0f, 400.0f, 1.0f), 40.0f));
+
+    p.push_back (std::make_unique<juce::AudioParameterFloat>(
+        "QFALLOFF", "QFalloff",
+        0.0f, 3.0f, 0.5f));
 
     p.push_back (std::make_unique<juce::AudioParameterFloat>(
         "MIX", "Mix",
@@ -339,7 +345,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout ChladniProcessor::createPara
 
     p.push_back (std::make_unique<juce::AudioParameterFloat>(
         "MAXMODES", "MaxModes",
-        juce::NormalisableRange<float> (1.0f, 144.0f, 1.0f), 16.0f));
+        juce::NormalisableRange<float> (1.0f, 210.0f, 1.0f), 16.0f));
 
     p.push_back (std::make_unique<juce::AudioParameterFloat>(
         "INGAIN", "InputGain",

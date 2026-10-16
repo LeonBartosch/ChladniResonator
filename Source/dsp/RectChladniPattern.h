@@ -78,7 +78,7 @@ public:
     {
         const float mm = (float) (m * m);
         const float nn = (float) (n * n);
-        return std::sqrt ((mm + nn) / 2.0f);   // /sqrt(2)^2
+        return std::sqrt ((mm + nn) / 2.0f);   // /sqrt(2)^2. ///// HIER NOCH EINEN SWITCH EINBAUEN FÜR PLATTE VS. MEMBRAN!?
     }
 
     static float relativeFreqFromModeIndex (int modeIndex)
